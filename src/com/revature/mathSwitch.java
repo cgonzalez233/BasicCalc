@@ -3,13 +3,14 @@ package com.revature;
 import java.util.Scanner;
 
 public class mathSwitch {
-    public void mathAns(int x, int y){
+    public void mathAns(double x, double y){
         Scanner scan = new Scanner(System.in);
         Calculation calc = new Calculation(x, y);
         Questions q2 = new Questions();
 
-        int choice = scan.nextInt();
-        switch(choice){
+        double choice = scan.nextDouble();
+
+        switch((int) choice){
             case 1:
                 calc.add();
                 break;

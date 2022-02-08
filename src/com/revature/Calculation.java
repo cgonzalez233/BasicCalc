@@ -5,16 +5,12 @@ import java.util.Scanner;
 public class Calculation {
     Scanner scan = new Scanner(System.in);
     Questions questions = new Questions();
-    int x;
-    int y;
+    double x;
+    double y;
 
-    public Calculation(int x, int y){
+    public Calculation(double x, double y){
         this.x = x;
         this.y = y;
-    }
-
-    public Calculation(){
-
     }
 
 

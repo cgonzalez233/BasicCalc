@@ -11,17 +11,17 @@ public class Questions {
         System.out.println("Basic Java Calculator");
         System.out.println("---------------------");
         System.out.println("Please input your first number");
-        int x = scan.nextInt();
+        double x = scan.nextDouble();
 
         System.out.println("Please input your second number");
-        int y = scan.nextInt();
+        double y = scan.nextDouble();
 
         whatToDo(x, y);
 
 
     };
 
-    public void whatToDo(int x, int y){
+    public void whatToDo(double x, double y){
         System.out.println("Would you like to do ");
         System.out.println("------------------");
         System.out.println("1. Add");
@@ -45,9 +45,9 @@ public class Questions {
         System.out.println("1. Yes");
         System.out.println("2. No");
 
-        int ans = scan.nextInt();
+        double ans = scan.nextDouble();
 
-        switch(ans){
+        switch((int) ans){
             case 1:
                 numbers();
                 break;
