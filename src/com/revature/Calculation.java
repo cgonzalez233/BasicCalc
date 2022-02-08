@@ -1,9 +1,7 @@
 package com.revature;
 
-import java.util.Scanner;
 
 public class Calculation {
-    Scanner scan = new Scanner(System.in);
     Questions questions = new Questions();
     double x;
     double y;

@@ -8,9 +8,9 @@ public class mathSwitch {
         Calculation calc = new Calculation(x, y);
         Questions q2 = new Questions();
 
-        double choice = scan.nextDouble();
+        int choice = scan.nextInt();
 
-        switch((int) choice){
+        switch(choice){
             case 1:
                 calc.add();
                 break;
