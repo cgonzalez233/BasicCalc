@@ -1,4 +1,4 @@
-package com.revature;
+package com.calculator;
 
 
 public class Calculation {
