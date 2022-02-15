@@ -18,6 +18,7 @@ public class Menu {
 
     public static void mainMenu() throws SQLException {
 
+        System.out.println();
         System.out.println("Welcome to CGBank! Please make a selection");
         System.out.println("Enter the number in front of your choice");
         System.out.println();
@@ -60,6 +61,7 @@ public class Menu {
 
         if(userMethods.currentUser == null){
 
+            System.out.println();
             System.out.println("Please login to access accounts!");
             System.out.println();
             System.out.println("1. Login");
@@ -80,6 +82,7 @@ public class Menu {
             }
 
         }else {
+            System.out.println();
             System.out.println("Welcome back " + userMethods.currentUser.getUsername() + "! Please choose an option");
             System.out.println();
             System.out.println("1. Update Account");
@@ -138,6 +141,7 @@ public class Menu {
     public static void empMenu() throws SQLException {
         if(userMethods.currentUser.isAdmin()){
 
+            System.out.println();
             System.out.println("Welcome back " + userMethods.currentUser.getUsername() + "! Please choose an option");
             System.out.println();
             System.out.println("1. Find All Users");
@@ -183,6 +187,7 @@ public class Menu {
             }
 
         }else{
+            System.out.println();
             System.out.println("You are not currently logged in as an employee");
             System.out.println("Please login as an employee");
             System.out.println();

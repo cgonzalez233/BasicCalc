@@ -20,7 +20,10 @@ public class UserMethods {
     AccountDaoImpl accountDao = new AccountDaoImpl();
     Random rand = new Random();
 
+    // -------------------------------------------------------------------
+
     public User login() throws SQLException {
+        System.out.println();
         System.out.println("Please enter your username");
         String username = scan.next();
 
@@ -29,24 +32,25 @@ public class UserMethods {
 
         User user = userDao.findByUsername(username);
 
-        if(username.equals(user.getUsername()) && pass.equals(user.getPassword())){
+        if (username.equals(user.getUsername()) && pass.equals(user.getPassword())) {
             currentUser = user;
             System.out.println("Successfully Logged In!");
             return user;
-        }else{
+        } else {
             System.out.println("Something went wrong!");
         }
 
-     return null;
+        return null;
     }
 
-    public void viewAccs() throws SQLException{
+    // -------------------------------------------------------------------
 
+    public void viewAccs() throws SQLException {
         List<Account> userAccs = accountDao.findAccByOwner(currentUser.getUsername());
 
         System.out.println();
 
-        for(int i = 0; i < userAccs.size(); i++){
+        for (int i = 0; i < userAccs.size(); i++) {
             System.out.println((i + 1) +
                     ". Account Id: " + userAccs.get(i).getId() +
                     ", Username: " + userAccs.get(i).getOwner() +
@@ -60,7 +64,7 @@ public class UserMethods {
 
         int back = scan.nextInt();
 
-        switch (back){
+        switch (back) {
             case 1:
                 Menu.userMenu();
                 break;
@@ -70,15 +74,18 @@ public class UserMethods {
 
     }
 
+    // -------------------------------------------------------------------
+
     public void deposit() throws SQLException {
-        if(accountDao.findAccByOwner(currentUser.getUsername()).size() > 0){
+        if (accountDao.findAccByOwner(currentUser.getUsername()).size() > 0) {
+            System.out.println();
             System.out.println("Please choose which account you would like to deposit into");
             System.out.println();
             List<Account> acc = accountDao.findAccByOwner(currentUser.getUsername());
 
             System.out.println();
 
-            for(int i = 0; i < acc.size(); i++){
+            for (int i = 0; i < acc.size(); i++) {
                 System.out.println((i + 1) +
                         ". Account: " + acc.get(i).getId() +
                         ", Balance: " + acc.get(i).getBalance() +
@@ -86,112 +93,121 @@ public class UserMethods {
             }
 
             int answer = scan.nextInt();
-            Account currentAcc = (acc.get(answer-1));
+            Account currentAcc = (acc.get(answer - 1));
 
-            if(answer <= acc.size() && answer > 0 && currentAcc.isActive()){
+            if (answer <= acc.size() && answer > 0 && currentAcc.isActive()) {
                 System.out.println("Please enter deposit amount in dollars");
                 System.out.println();
                 double deposit = scan.nextDouble();
                 accountDao.depositAcc(currentAcc.getId(), deposit);
 
-            }else{
+            } else {
                 System.out.println("Your account is not active yet");
             }
-        }else {
+        } else {
             System.out.println("You do not have any bank accounts activated");
         }
 
     }
 
+    // -------------------------------------------------------------------
+
     public void withdraw() throws SQLException {
-        if(accountDao.findAccByOwner(currentUser.getUsername()).size() > 0){
+        if (accountDao.findAccByOwner(currentUser.getUsername()).size() > 0) {
+            System.out.println();
             System.out.println("Please choose which account you would like to withdraw from");
             System.out.println();
             List<Account> acc = accountDao.findAccByOwner(currentUser.getUsername());
 
             System.out.println();
 
-            for(int i = 0; i < acc.size(); i++){
+            for (int i = 0; i < acc.size(); i++) {
                 System.out.println((i + 1) + ". " + acc.get(i).toString());
             }
 
             int answer = scan.nextInt();
-            Account currentAcc = (acc.get(answer-1));
+            Account currentAcc = (acc.get(answer - 1));
 
-            try{
-                if(answer <= acc.size() && answer > 0 && currentAcc.isActive()){
+            try {
+                if (answer <= acc.size() && answer > 0 && currentAcc.isActive()) {
                     System.out.println("Please enter withdraw amount in dollars");
                     System.out.println();
                     double withdraw = scan.nextDouble();
 
-                    if(currentAcc.isActive() && currentAcc.getBalance() > withdraw){
+                    if (currentAcc.getBalance() > withdraw) {
                         accountDao.withdrawAcc(currentAcc.getId(), withdraw);
-                    }else{
+                    } else {
                         System.out.println("You don't have the required funds");
                     }
-                }else{
+                } else {
                     System.out.println("Your account is not active yet");
                 }
-            }catch(IndexOutOfBoundsException | SQLException exception){
+            } catch (IndexOutOfBoundsException | SQLException exception) {
                 System.out.println("Please pick one of the options");
             }
-        }else {
+        } else {
             System.out.println("You do not have any bank accounts activated");
             Menu.userMenu();
         }
 
     }
 
+    // -------------------------------------------------------------------
+
     public void transfer() throws SQLException {
+        System.out.println();
         System.out.println("Please choose which account you would like to withdraw from");
         System.out.println();
         List<Account> accList = accountDao.findAccByOwner(currentUser.getUsername());
 
         System.out.println();
 
-        for(int i = 0; i < accList.size(); i++){
+        for (int i = 0; i < accList.size(); i++) {
             System.out.println((i + 1) + ". " + accList.get(i).toString());
         }
 
         int answer = scan.nextInt();
-        Account acc1 = (accList.get(answer-1));
+        Account acc1 = (accList.get(answer - 1));
 
-        if(answer <= accList.size() && answer > 0 && acc1.isActive()){
+        if (answer <= accList.size() && answer > 0 && acc1.isActive()) {
             System.out.println("Please enter withdraw amount in dollars");
             System.out.println();
             double transfer = scan.nextDouble();
 
-            if(acc1.getBalance() > transfer){
+            if (acc1.getBalance() > transfer) {
                 System.out.println("Please choose which account you would like to deposit into");
                 System.out.println();
 
 
-                for(int i = 0; i < accList.size(); i++){
+                for (int i = 0; i < accList.size(); i++) {
                     System.out.println((i + 1) + ". " + accList.get(i).toString());
                 }
 
                 int answer2 = scan.nextInt();
-                Account acc2 = (accList.get(answer2-1));
+                Account acc2 = (accList.get(answer2 - 1));
 
-                if(answer2 <= accList.size() && answer2 > 0 && acc2.isActive()){
+                if (answer2 <= accList.size() && answer2 > 0 && acc2.isActive()) {
 
                     accountDao.withdrawAcc(acc1.getId(), transfer);
                     accountDao.depositAcc(acc2.getId(), transfer);
 
-                }else{
+                } else {
                     System.out.println("Your account is not active yet");
                 }
-            }else{
+            } else {
                 System.out.println("You don't have the required funds");
             }
-        }else{
+        } else {
             System.out.println("Your account is not active yet");
         }
 
 
     }
 
+    // -------------------------------------------------------------------
+
     public void apply() throws SQLException {
+        System.out.println();
         System.out.println("Do you want to apply for a bank account with CGBank?");
         System.out.println();
         System.out.println("1. Yes");
@@ -199,7 +215,7 @@ public class UserMethods {
 
         int answer = scan.nextInt();
 
-        switch(answer){
+        switch (answer) {
             case 1:
                 Account acc = new Account(rand.nextInt(100000), currentUser.getUsername(), 0);
                 accountDao.addAcc(acc);
@@ -215,9 +231,10 @@ public class UserMethods {
 
     }
 
-    public void newUser(){
-        System.out.println("Welcome to CGBank!");
-        System.out.println("------------------");
+    // -------------------------------------------------------------------
+
+    public void newUser() {
+        System.out.println();
         System.out.println("To start, we need to set up an account");
         System.out.println("Please enter a unique username");
 
@@ -228,18 +245,21 @@ public class UserMethods {
 
         String pass = scan.next();
 
-        try{
+        try {
             User user = new User(username, pass);
             userDao.addUser(user);
             System.out.println("Account successfully created!");
 
-        }catch(NotUniqueUsernameException | SQLException ex){
+        } catch (NotUniqueUsernameException | SQLException ex) {
             System.out.println("Please enter a unique username and password");
         }
 
     }
 
+    // -------------------------------------------------------------------
+
     public void updateUser() throws SQLException {
+        System.out.println();
         System.out.println("Would you like to change your username or password?");
         System.out.println();
         System.out.println("1. Username");
@@ -247,7 +267,7 @@ public class UserMethods {
 
         int answer = scan.nextInt();
 
-        switch(answer){
+        switch (answer) {
             case 1:
                 System.out.println("Please enter the username you would like to change to");
                 System.out.println();
@@ -274,5 +294,7 @@ public class UserMethods {
 
 
     }
+
+    // -------------------------------------------------------------------
 
 }

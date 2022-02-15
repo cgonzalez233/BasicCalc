@@ -18,16 +18,17 @@ public class AdminMethods {
     Random rand = new Random();
 
     // ----------------------------------------------------------------------------------------------
-    // Method to promote an account into an employee account. Can only be done by an admin
+    // Method to promote a user account into an employee account
 
     public void hire() throws SQLException {
+        System.out.println();
         System.out.println("Who is joining the CGBank family?");
         System.out.println();
         List<User> users = userDao.findAll();
 
         System.out.println();
 
-        for(int i = 0; i < users.size(); i++){
+        for (int i = 0; i < users.size(); i++) {
             System.out.println((i + 1) +
                     ". User Id: " + users.get(i).getId() +
                     ", Username: " + users.get(i).getUsername());
@@ -43,7 +44,7 @@ public class AdminMethods {
     }
 
     // ----------------------------------------------------------------------------------------------
-    // Show all current users in the database
+    // Show all users in the database
 
     public void findAllUsers() throws SQLException {
 
@@ -51,7 +52,7 @@ public class AdminMethods {
 
         System.out.println();
 
-        for(int i = 0; i < users.size(); i++){
+        for (int i = 0; i < users.size(); i++) {
             System.out.println((i + 1) +
                     ". User Id: " + users.get(i).getId() +
                     ", Username: " + users.get(i).getUsername() +
@@ -63,7 +64,7 @@ public class AdminMethods {
 
         int back = scan.nextInt();
 
-        switch (back){
+        switch (back) {
             case 1:
                 Menu.empMenu();
                 break;
@@ -77,7 +78,7 @@ public class AdminMethods {
     // find an account by a specific username
 
     public void findByUsername() throws SQLException {
-
+        System.out.println();
         System.out.println("Please enter the username of the account you'd like to find");
         System.out.println();
 
@@ -85,7 +86,7 @@ public class AdminMethods {
 
         List<Account> ownerAcc = accountDao.findAccByOwner(answer);
 
-        for(int i = 0; i < ownerAcc.size(); i++){
+        for (int i = 0; i < ownerAcc.size(); i++) {
             System.out.println((i + 1) +
                     ". Account Id: " + ownerAcc.get(i).getId() +
                     ", Username: " + ownerAcc.get(i).getOwner() +
@@ -99,7 +100,7 @@ public class AdminMethods {
 
         int back = scan.nextInt();
 
-        switch (back){
+        switch (back) {
             case 1:
                 Menu.empMenu();
                 break;
@@ -113,12 +114,13 @@ public class AdminMethods {
     // Method to allow an employee to approve or deny an application for an account
 
     public void appApproval() throws SQLException {
+        System.out.println();
         System.out.println("Here is a list of pending applications");
 
         List<Account> pendingAcc = accountDao.findByPending();
 
-        if(pendingAcc.size() > 0){
-            for(int i = 0; i < pendingAcc.size(); i++){
+        if (pendingAcc.size() > 0) {
+            for (int i = 0; i < pendingAcc.size(); i++) {
                 System.out.println((i + 1) +
                         ". Account Id: " + pendingAcc.get(i).getId() +
                         ", Username: " + pendingAcc.get(i).getOwner() +
@@ -130,15 +132,15 @@ public class AdminMethods {
             System.out.println();
 
             int approve = scan.nextInt();
-            Account approveAcc = (pendingAcc.get(approve -1));
+            Account approveAcc = (pendingAcc.get(approve - 1));
 
-            if(approve <= pendingAcc.size() && approve > 0){
+            if (approve <= pendingAcc.size() && approve > 0) {
                 accountDao.activateAcc(approveAcc.getId());
-            }else{
+            } else {
                 System.out.println("Please enter a valid number");
                 appApproval();
             }
-        }else{
+        } else {
             System.out.println("There are no accounts to approve");
             Menu.empMenu();
         }
@@ -150,12 +152,13 @@ public class AdminMethods {
     // Method to allow an employee to delete the account of a user
 
     public void deleteAcc() throws SQLException {
+        System.out.println();
         System.out.println("Which user account would you like to remove?");
         System.out.println();
         List<Account> allAcc = accountDao.findAllAcc();
 
-        if(allAcc.size() > 0){
-            for(int i = 0; i < allAcc.size(); i++){
+        if (allAcc.size() > 0) {
+            for (int i = 0; i < allAcc.size(); i++) {
                 System.out.println((i + 1) +
                         ". Account Id: " + allAcc.get(i).getId() +
                         ", Username: " + allAcc.get(i).getOwner() +
@@ -168,15 +171,15 @@ public class AdminMethods {
             System.out.println();
 
             int delete = scan.nextInt();
-            Account deleteAcc = (allAcc.get(delete -1));
+            Account deleteAcc = (allAcc.get(delete - 1));
 
-            if(delete <= allAcc.size() && delete > 0){
+            if (delete <= allAcc.size() && delete > 0) {
                 accountDao.deleteAcc(deleteAcc.getId());
-            }else{
+            } else {
                 System.out.println("Please enter a valid number");
                 deleteAcc();
             }
-        }else{
+        } else {
             System.out.println("There are no accounts to delete");
             Menu.empMenu();
         }
