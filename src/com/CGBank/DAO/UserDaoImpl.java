@@ -1,20 +1,12 @@
 package com.CGBank.DAO;
 
 import com.CGBank.ConnectionFactory;
-import com.CGBank.Main;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class UserDaoImpl implements UserDao{
-
-    static Main main = new Main();
-    static Scanner scan = new Scanner(System.in);
-
-    static User currentUser = null;
 
     Connection connection;
 
@@ -23,33 +15,134 @@ public class UserDaoImpl implements UserDao{
     }
 
 
+
     @Override
-    public List<User> findAll() {
-        return null;
+    public List<User> findAll() throws SQLException {
+        String sql = "select * from users";
+
+        Statement statement = connection.createStatement();
+        ResultSet result = statement.executeQuery(sql);
+
+        List<User> allUsers = new ArrayList<User>();
+
+        while(result.next()){
+            int id = result.getInt("user_id");
+            String username = result.getString("username");
+            String password = result.getString("pass");
+            boolean isAdmin = result.getBoolean("is_admin");
+
+            allUsers.add(new User(id, username, password, isAdmin));
+        }
+
+        return allUsers;
     }
 
     @Override
-    public User findByUsername(String username) {
-        return null;
+    public User findByUsername(String username) throws SQLException {
+        String sql = "select * from users where username = ?";
+
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setString(1, username);
+
+        ResultSet result = preparedStatement.executeQuery();
+        User user = new User();
+
+        while(result.next()){
+            user.setId(result.getInt("user_id"));
+            user.setUsername(result.getString("username"));
+            user.setPassword(result.getString("pass"));
+            user.setAdmin(result.getBoolean("is_admin"));
+        }
+
+        return user;
     }
 
     @Override
-    public int insert(User u) {
-        return 0;
+    public void addUser(User user) throws SQLException {
+        String sql = "insert into users(username, pass) values (?,?)";
+
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setString(1, user.getUsername());
+        preparedStatement.setString(2, user.getPassword());
+
+        int count = preparedStatement.executeUpdate();
+        if(count > 0){
+            System.out.println("User Saved!");
+        }else{
+            System.out.println("Oops! Something went wrong");
+        }
+
     }
 
     @Override
-    public boolean update(User u) {
-        return false;
+    public void updateUser(String username, String pass) throws SQLException {
+        String sql = "update users set username = ?, password = ?";
+
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setString(1, username);
+        preparedStatement.setString(2, pass);
+
+        int count = preparedStatement.executeUpdate();
+        if(count > 0){
+            System.out.println("User Updated!");
+        }else{
+            System.out.println("Oops! Something went wrong");
+        }
+
     }
 
     @Override
-    public boolean delete(int userId) {
-        return false;
+    public void deleteUser(int userId) throws SQLException {
+        String sql = "delete from users where id = ?";
+
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setInt(1, userId);
+
+        int count = preparedStatement.executeUpdate();
+        if(count > 0){
+            System.out.println("User Deleted!");
+        }else{
+            System.out.println("Oops! Something went wrong");
+        }
+
     }
 
     @Override
-    public User findById(int userId) {
-        return null;
+    public User findUserById(int userId) throws SQLException {
+        String sql = "select * from users where id = ?";
+
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setInt(1, userId);
+
+        ResultSet result = preparedStatement.executeQuery();
+
+        User user = new User();
+
+        while (result.next()){
+            user.setId(result.getInt("user_id"));
+            user.setUsername(result.getString("username"));
+            user.setPassword(result.getString("pass"));
+            user.setAdmin(result.getBoolean("is_admin"));
+        }
+
+        return user;
     }
+
+    @Override
+    public void hireEmp(int userId) throws SQLException {
+        String sql = "update users set is_admin = 1 where user_id = ?";
+
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setInt(1, userId);
+
+        int count = preparedStatement.executeUpdate();
+        if(count > 0){
+            System.out.println("You're Hired!");
+        }else{
+            System.out.println("Oops! Something went wrong");
+        }
+
+    }
+
+
 }
