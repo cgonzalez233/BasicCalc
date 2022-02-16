@@ -99,7 +99,12 @@ public class UserMethods {
                 System.out.println("Please enter deposit amount in dollars");
                 System.out.println();
                 double deposit = scan.nextDouble();
-                accountDao.depositAcc(currentAcc.getId(), deposit);
+
+                if(deposit > 0){
+                    accountDao.depositAcc(currentAcc.getId(), deposit);
+                }else{
+                    System.out.println("Invalid deposit amount, please try again");
+                }
 
             } else {
                 System.out.println("Your account is not active yet");
@@ -217,7 +222,11 @@ public class UserMethods {
 
         switch (answer) {
             case 1:
-                Account acc = new Account(rand.nextInt(100000), currentUser.getUsername(), 0);
+                System.out.println("How much would you like to deposit into your account to start");
+                System.out.println();
+                int amount = scan.nextInt();
+
+                Account acc = new Account(rand.nextInt(100000), currentUser.getUsername(), amount);
                 accountDao.addAcc(acc);
                 System.out.println("You have applied for an account!");
                 System.out.println("Please wait for an employee to activate your new account");

@@ -124,18 +124,35 @@ public class AdminMethods {
                 System.out.println((i + 1) +
                         ". Account Id: " + pendingAcc.get(i).getId() +
                         ", Username: " + pendingAcc.get(i).getOwner() +
+                        ", Balance: " + pendingAcc.get(i).getBalance() +
                         ", Pending Approval: " + pendingAcc.get(i).isPending());
             }
 
             System.out.println();
-            System.out.println("Which account would you like to approve?");
+            System.out.println("Which account would you like to approve/deny?");
             System.out.println();
 
             int approve = scan.nextInt();
             Account approveAcc = (pendingAcc.get(approve - 1));
 
             if (approve <= pendingAcc.size() && approve > 0) {
-                accountDao.activateAcc(approveAcc.getId());
+                System.out.println();
+                System.out.println("1. Approve");
+                System.out.println("2. Deny");
+                int choice = scan.nextInt();
+
+                switch(choice){
+                    case 1:
+                        accountDao.activateAcc(approveAcc.getId());
+                        break;
+                    case 2:
+                        accountDao.deleteAcc(approveAcc.getId());
+                        break;
+                    default:
+                        System.out.println("Please enter an approved number");
+                        break;
+                }
+
             } else {
                 System.out.println("Please enter a valid number");
                 appApproval();
