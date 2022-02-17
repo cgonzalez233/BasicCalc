@@ -83,7 +83,7 @@ public class Menu {
 
         }else {
             System.out.println();
-            System.out.println("Welcome back " + userMethods.currentUser.getUsername() + "! Please choose an option");
+            System.out.println("Welcome back " + userMethods.currentUser.getFirstName() + "! Please choose an option");
             System.out.println();
             System.out.println("1. Update Account");
             System.out.println("2. View My Bank Accounts");
@@ -142,7 +142,7 @@ public class Menu {
         if(userMethods.currentUser.isAdmin()){
 
             System.out.println();
-            System.out.println("Welcome back " + userMethods.currentUser.getUsername() + "! Please choose an option");
+            System.out.println("Welcome back " + userMethods.currentUser.getFirstName() + "! Please choose an option");
             System.out.println();
             System.out.println("1. Find All Users");
             System.out.println("2. Find Accounts by Username");

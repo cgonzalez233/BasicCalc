@@ -168,7 +168,11 @@ public class UserMethods {
         System.out.println();
 
         for (int i = 0; i < accList.size(); i++) {
-            System.out.println((i + 1) + ". " + accList.get(i).toString());
+            System.out.println((i + 1) +
+                    ". Account Id: " + accList.get(i).getId() +
+                    ", Username: " + accList.get(i).getOwner() +
+                    ", Balance: " + accList.get(i).getBalance() +
+                    ", Pending Approval: " + accList.get(i).isPending());
         }
 
         int answer = scan.nextInt();
@@ -183,15 +187,20 @@ public class UserMethods {
                 System.out.println("Please choose which account you would like to deposit into");
                 System.out.println();
 
+                List<Account> allAccs = accountDao.findAllAcc();
 
-                for (int i = 0; i < accList.size(); i++) {
-                    System.out.println((i + 1) + ". " + accList.get(i).toString());
+                for (int i = 0; i < allAccs.size(); i++) {
+                    System.out.println((i + 1) +
+                            ". Account Id: " + allAccs.get(i).getId() +
+                            ", Username: " + allAccs.get(i).getOwner() +
+                            ", Balance: " + allAccs.get(i).getBalance() +
+                            ", Pending Approval: " + allAccs.get(i).isPending());
                 }
 
                 int answer2 = scan.nextInt();
-                Account acc2 = (accList.get(answer2 - 1));
+                Account acc2 = (allAccs.get(answer2 - 1));
 
-                if (answer2 <= accList.size() && answer2 > 0 && acc2.isActive()) {
+                if (answer2 <= allAccs.size() && answer2 > 0 && acc2.isActive()) {
 
                     accountDao.withdrawAcc(acc1.getId(), transfer);
                     accountDao.depositAcc(acc2.getId(), transfer);
@@ -245,17 +254,23 @@ public class UserMethods {
     public void newUser() {
         System.out.println();
         System.out.println("To start, we need to set up an account");
-        System.out.println("Please enter a unique username");
+        System.out.println("Please enter your first name");
+        String fName = scan.next();
 
+        System.out.println();
+        System.out.println("Please enter your last name");
+        String lName = scan.next();
+
+        System.out.println();
+        System.out.println("Please enter a unique username");
         String username = scan.next();
 
         System.out.println();
         System.out.println("Now enter a super secret password");
-
         String pass = scan.next();
 
         try {
-            User user = new User(username, pass);
+            User user = new User(username, pass, fName, lName);
             userDao.addUser(user);
             System.out.println("Account successfully created!");
 

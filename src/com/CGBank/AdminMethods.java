@@ -29,17 +29,23 @@ public class AdminMethods {
         System.out.println();
 
         for (int i = 0; i < users.size(); i++) {
-            System.out.println((i + 1) +
-                    ". User Id: " + users.get(i).getId() +
-                    ", Username: " + users.get(i).getUsername());
+            if(!users.get(i).isAdmin()){
+                System.out.println((i + 1) +
+                        ". User Id: " + users.get(i).getId() +
+                        ", Name: " + users.get(i).getFirstName() + " " + users.get(i).getLastName() +
+                        ", Username: " + users.get(i).getUsername());
+            }
         }
 
-        System.out.println("Please enter a number");
+        System.out.println("Please enter a number or press 0 to return back to employee menu");
 
         int answer = scan.nextInt();
-        User hiredUser = (users.get(answer - 1));
-
-        userDao.hireEmp(hiredUser.getId());
+        if(answer==0){
+            Menu.empMenu();
+        }else{
+            User hiredUser = (users.get(answer - 1));
+            userDao.hireEmp(hiredUser.getId());
+        }
 
     }
 
@@ -55,6 +61,7 @@ public class AdminMethods {
         for (int i = 0; i < users.size(); i++) {
             System.out.println((i + 1) +
                     ". User Id: " + users.get(i).getId() +
+                    ", Name: " + users.get(i).getFirstName() + " " + users.get(i).getLastName() +
                     ", Username: " + users.get(i).getUsername() +
                     ", Employee: " + users.get(i).isAdmin());
         }

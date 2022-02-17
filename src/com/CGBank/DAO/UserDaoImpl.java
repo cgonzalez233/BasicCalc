@@ -30,8 +30,10 @@ public class UserDaoImpl implements UserDao{
             String username = result.getString("username");
             String password = result.getString("pass");
             boolean isAdmin = result.getBoolean("is_admin");
+            String firstName = result.getString("first_name");
+            String lastName = result.getString("last_name");
 
-            allUsers.add(new User(id, username, password, isAdmin));
+            allUsers.add(new User(id, username, password, isAdmin, firstName, lastName));
         }
 
         return allUsers;
@@ -52,6 +54,8 @@ public class UserDaoImpl implements UserDao{
             user.setUsername(result.getString("username"));
             user.setPassword(result.getString("pass"));
             user.setAdmin(result.getBoolean("is_admin"));
+            user.setFirstName(result.getString("first_name"));
+            user.setLastName(result.getString("last_name"));
         }
 
         return user;
@@ -59,11 +63,13 @@ public class UserDaoImpl implements UserDao{
 
     @Override
     public void addUser(User user) throws SQLException {
-        String sql = "insert into users(username, pass) values (?,?)";
+        String sql = "insert into users(username, pass, first_name, last_name) values (?,?,?,?)";
 
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setString(1, user.getUsername());
         preparedStatement.setString(2, user.getPassword());
+        preparedStatement.setString(3, user.getFirstName());
+        preparedStatement.setString(4, user.getLastName());
 
         int count = preparedStatement.executeUpdate();
         if(count > 0){
@@ -123,6 +129,9 @@ public class UserDaoImpl implements UserDao{
             user.setUsername(result.getString("username"));
             user.setPassword(result.getString("pass"));
             user.setAdmin(result.getBoolean("is_admin"));
+            user.setFirstName(result.getString("first_name"));
+            user.setLastName(result.getString("last_name"));
+
         }
 
         return user;

@@ -10,6 +10,8 @@ public class User {
     private String username;
     private String password;
     private boolean isAdmin;
+    private String firstName;
+    private String lastName;
 
 
     // ----------------------------------------------------------------------------------------------
@@ -18,16 +20,20 @@ public class User {
 
     public User() { }
 
-    public User(String username, String password) {
+    public User(String username, String password, String firstName, String lastName) {
         this.username = username;
         this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 
-    public User(int id, String username, String password, boolean isAdmin) {
+    public User(int id, String username, String password, boolean isAdmin, String firstName, String lastName) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.isAdmin = isAdmin;
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 
     // ----------------------------------------------------------------------------------------------
@@ -65,6 +71,21 @@ public class User {
         isAdmin = admin;
     }
 
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 
     // ----------------------------------------------------------------------------------------------
     // toString()
@@ -76,6 +97,8 @@ public class User {
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", isAdmin=" + isAdmin +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
                 '}';
     }
 
