@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bird Zone</title>
+    <style>
+      body {
+        background-color: rgb(44, 43, 43);
+      }
+      div {
+        height: 300px;
+        width: 300px;
+        margin-right: 100px;
+        border: 2px solid whitesmoke;
+        display: inline-block;
+        color: whitesmoke;
+        text-align: center;
+        padding-top: 10px;
+        position: fixed;
+      }
+      #div2 {
+        margin-left: 400px;
+      }
+
+      #div3 {
+        margin-left: 800px;
+      }
+
+      #div1 {
+        margin-left: 1200px;
+      }
+
+      span {
+        width: auto;
+        height: auto;
+        border: 2px solid whitesmoke;
+        display: inline-block;
+        margin-top: 400px;
+        padding: 20px;
+        position: fixed;
+      }
+
+      img {
+        height: 100px;
+        margin-right: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+    <div id="div2" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+    <div id="div3" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+    <div id="div4" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+
+    <span id="span1"></span>
+
+    <script>
+      function allowDrop(event) {
+        event.preventDefault();
+      }
+
+      function drag(event) {
+        var id = event.target.id;
+        event.dataTransfer.setData("text", id);
+      }
+
+      function drop(event) {
+        var id = event.dataTransfer.getData("text");
+        event.target.appendChild(document.getElementById(id));
+      }
+
+      for (var i = 1; i < 21; i++) {
+        var img = document.createElement("img");
+        img.setAttribute("src", "img/bird.jpg");
+        // img.setAttribute("src", "img/sh" + i + ".jpg");
+        img.setAttribute("draggable", "true");
+        img.setAttribute("ondragstart", "drag(event)");
+        img.setAttribute("id", "img" + i);
+
+        var span = document.getElementById("span1");
+        span.appendChild(img);
+      }
+    </script>
+  </body>
+</html>
